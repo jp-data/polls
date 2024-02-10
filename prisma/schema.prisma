@@ -10,9 +10,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// tabela de enquete
 model Poll {
   id        String   @id @default(uuid())
   title     String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+
+  options PollOption[]
+}
+
+// opções de enquete - Relação 1:N
+model PollOption {
+  id     String @id @default(uuid())
+  title  String
+  pollId String
+
+  poll Poll @relation(fields: [pollId], references: [id])
 }
