@@ -4,17 +4,18 @@ import { prisma } from '../../lib/prisma'
 
 const app = fastify()
 
-
+// criação de uma enquete
 export async function createPoll(app: FastifyInstance) {
-    // criação de uma enquete
+    
     app.post('/polls', async (req, res) => {
+        // validação dos dados com o zod
         const createPollBody = z.object({
             title: z.string(),
             options: z.array(z.string()),
         })
 
         const { title, options } = createPollBody.parse(req.body)
-
+        // criação da enquete
         const poll = await prisma.poll.create({
             data: {
                 title,
