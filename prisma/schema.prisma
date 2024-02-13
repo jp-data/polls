@@ -18,6 +18,7 @@ model Poll {
   updatedAt DateTime @default(now())
 
   options PollOption[]
+  Vote    Vote[]
 }
 
 // opções da enquete - Relação 1(enquete):N(opções)
@@ -26,5 +27,20 @@ model PollOption {
   title  String
   pollId String
 
-  poll Poll @relation(fields: [pollId], references: [id])
+  poll Poll   @relation(fields: [pollId], references: [id])
+  Vote Vote[]
+}
+
+model Vote {
+  id           Int      @id @default(autoincrement())
+  sessionId    String
+  pollOptionId String
+  pollId       String
+  createdAt    DateTime @default(now())
+
+  pollOption PollOption @relation(fields: [pollOptionId], references: [id])
+  poll       Poll       @relation(fields: [pollId], references: [id])
+
+  //  usuário só pode votar  vez em cada enquete
+  @@unique([sessionId, pollId])
 }
