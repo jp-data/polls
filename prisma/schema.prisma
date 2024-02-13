@@ -20,7 +20,7 @@ model Poll {
   options PollOption[]
 }
 
-// opções de enquete - Relação 1:N
+// opções da enquete - Relação 1(enquete):N(opções)
 model PollOption {
   id     String @id @default(uuid())
   title  String
